@@ -39,3 +39,5 @@ pnpm-debug.log*
 # screenshots de verificación (solo raíz)
 /*.png
 /*.jpg
+
+.vercel
