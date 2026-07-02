@@ -28,7 +28,7 @@ import { services } from '../data/services';
           </div>
         </div>
         {i < services.length - 1 && (
-          <div class="h-[65vh]" aria-hidden="true" />
+          <div class="h-[95vh] md:h-[65vh]" aria-hidden="true" />
         )}
       </div>
     ))}
@@ -42,7 +42,7 @@ import { services } from '../data/services';
   );
 
   if (track && cards.length) {
-    const ZONE = window.innerHeight * 0.65;
+    const ZONE = window.innerHeight * (window.innerWidth < 768 ? 0.95 : 0.65);
     const MAX_TILT = 4;
 
     const T_SCROLL = 'transform 0.35s cubic-bezier(0.23,1,0.32,1), filter 0.35s cubic-bezier(0.23,1,0.32,1)';
