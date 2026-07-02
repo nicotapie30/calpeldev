@@ -1,118 +1,163 @@
 ---
-import { Image } from 'astro:assets';
 import SocialLinks from './SocialLinks.astro';
 import { whatsappLink } from '../data/site';
-import nicoPhoto from '../assets/nico.webp';
 
 const ctaHref = whatsappLink('Hola Nicolás, me gustaría charlar sobre mi proyecto.');
+
+const quoteChunks: { text: string; hl?: 'accent' | 'accent-light' }[] = [
+  { text: 'Sin intermediarios,', hl: 'accent' },
+  { text: 'sin letra chica.' },
+  { text: 'Hablás' },
+  { text: 'directo', hl: 'accent-light' },
+  { text: 'con quien programa.' },
+];
 ---
 
 <section id="about" class="scroll-mt-24 relative overflow-hidden bg-bg-secondary/30 py-24 lg:py-32">
 
-  <!-- Orb izquierdo — ilumina el área de la foto -->
-  <div aria-hidden="true" class="pointer-events-none absolute -left-24 top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[160px]"></div>
-  <div class="container-site">
-    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-[2fr_3fr] lg:gap-20">
+  <!-- Orb — ilumina el área de la quote -->
+  <div aria-hidden="true" class="pointer-events-none absolute -left-24 top-0 h-[500px] w-[500px] rounded-full bg-accent opacity-[0.06] blur-[160px]"></div>
 
-      <!-- Foto — slide desde la izquierda -->
-      <div data-reveal="left" class="mx-auto w-full max-w-xs lg:mx-0">
-        <div class="group relative">
-          <div
-            class="absolute -inset-4 rounded-2xl bg-accent opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
-            aria-hidden="true"
-          />
-          <div class="photo-wrap relative overflow-hidden rounded-2xl ring-1 ring-accent/30">
-            <Image src={nicoPhoto} alt="Nicolás Atapie" width={400} height={500} class="h-full w-full object-cover object-top" />
-          </div>
-        </div>
+  <div class="container-site relative">
+    <div class="max-w-[46rem]">
+
+      <!-- Eyebrow + título -->
+      <div data-reveal="up">
+        <span class="text-[13px] font-medium uppercase tracking-[0.05em] text-accent">
+          Quién está detrás
+        </span>
+        <h2 class="mt-3 text-[clamp(28px,4vw,48px)] font-semibold leading-[1.05] tracking-[-0.03em] text-text-primary">
+          Hola, soy Nicolás.
+        </h2>
       </div>
 
-      <!-- Texto — slide desde la derecha -->
-      <div class="flex flex-col gap-7">
-
-        <!-- Eyebrow + título -->
-        <div data-reveal="right">
-          <span class="text-[13px] font-medium uppercase tracking-[0.05em] text-accent">
-            Quién está detrás
-          </span>
-          <h2 class="mt-3 text-[clamp(28px,4vw,48px)] font-semibold leading-[1.05] tracking-[-0.03em] text-text-primary">
-            Hola, soy Nicolás.
-          </h2>
-        </div>
-
-        <!-- Stats -->
-        <div data-reveal="right" data-delay="100" class="flex items-start gap-0 divide-x divide-border-base">
-          <div class="pr-6">
-            <span class="block font-mono text-[2rem] font-semibold leading-none text-accent">5+</span>
-            <span class="mt-1.5 block text-sm leading-tight text-text-secondary">años de<br>experiencia</span>
-          </div>
-          <div class="px-6">
-            <span class="block font-mono text-[2rem] font-semibold leading-none text-accent">30+</span>
-            <span class="mt-1.5 block text-sm leading-tight text-text-secondary">proyectos<br>entregados</span>
-          </div>
-          <div class="pl-6">
-            <span class="block font-mono text-[2rem] font-semibold leading-none text-accent">100%</span>
-            <span class="mt-1.5 block text-sm leading-tight text-text-secondary">directo,<br>sin agencias</span>
-          </div>
-        </div>
-
-        <!-- Availability badge -->
-        <div data-reveal="right" data-delay="160" class="flex items-center gap-2">
-          <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-50"></span>
-            <span class="relative inline-flex h-2 w-2 rounded-full bg-success"></span>
-          </span>
-          <span class="text-[13px] text-text-secondary">Tomando proyectos ahora</span>
-        </div>
-
-        <!-- Cuerpo -->
-        <div data-reveal="right" data-delay="220" class="flex flex-col gap-4 text-[17px] leading-relaxed text-text-secondary">
-          <p>
-            Trabajo con dueños de negocio y emprendedores que necesitan una
-            presencia digital que realmente funcione — no una página que existe
-            y ya. Llevo más de 5 años construyendo sitios, tiendas y
-            automatizaciones para negocios de toda Argentina y LATAM.
-          </p>
-          <p>
-            No manejo estructuras de agencia. Cuando me contactás, hablás
-            directo conmigo: la misma persona que diseña, programa y entrega.
-            Sin reuniones de coordinación, sin presupuestos que se inflan, sin
-            sorpresas.
-          </p>
-        </div>
-
-        <!-- Quote -->
-        <blockquote data-reveal="right" data-delay="300" class="border-l-2 border-accent pl-5">
-          <p class="text-[17px] font-medium leading-relaxed text-text-primary">
-            Sin intermediarios, sin letra chica. Hablás directo con quien
-            programa.
+      <!-- Quote — pieza central de la sección -->
+      <div data-reveal="up" data-delay="100" class="relative mt-10">
+        <blockquote class="relative border-l-2 border-accent pl-6">
+          <p
+            data-quote-reveal
+            class="flex flex-wrap gap-x-2.5 gap-y-1 text-[clamp(22px,2.6vw,32px)] font-semibold leading-[1.2] tracking-[-0.01em] text-text-primary"
+          >
+            {quoteChunks.map((chunk, i) => (
+              <span
+                class:list={['quote-chunk', chunk.hl && `quote-chunk--${chunk.hl}`]}
+                style={`transition-delay: ${i * 110}ms`}
+              >
+                {chunk.text}
+              </span>
+            ))}
           </p>
         </blockquote>
-
-        <!-- Social + CTA -->
-        <div data-reveal="right" data-delay="360" class="flex flex-col gap-5">
-          <SocialLinks />
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex w-fit items-center gap-2.5 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 text-sm font-semibold text-accent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white"
-          >
-            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.527 5.877L0 24l6.305-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.367l-.36-.213-3.727.977.995-3.638-.234-.374A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
-            </svg>
-            Hablemos por WhatsApp
-          </a>
-        </div>
-
       </div>
+
+      <!-- Stats — mini bento cards -->
+      <div data-reveal="up" data-delay="180" class="mt-10 grid grid-cols-3 gap-3">
+        <div class="rounded-xl border border-border-base bg-bg-surface/40 px-4 py-4 sm:px-5 sm:py-5">
+          <span class="block font-mono text-[1.75rem] font-semibold leading-none text-accent">5+</span>
+          <span class="mt-1.5 block text-sm leading-tight text-text-secondary">años de<br>experiencia</span>
+        </div>
+        <div class="rounded-xl border border-border-base bg-bg-surface/40 px-4 py-4 sm:px-5 sm:py-5">
+          <span class="block font-mono text-[1.75rem] font-semibold leading-none text-accent">30+</span>
+          <span class="mt-1.5 block text-sm leading-tight text-text-secondary">proyectos<br>entregados</span>
+        </div>
+        <div class="rounded-xl border border-border-base bg-bg-surface/40 px-4 py-4 sm:px-5 sm:py-5">
+          <span class="block font-mono text-[1.75rem] font-semibold leading-none text-accent">100%</span>
+          <span class="mt-1.5 block text-sm leading-tight text-text-secondary">directo,<br>sin agencias</span>
+        </div>
+      </div>
+
+      <!-- Cuerpo -->
+      <div data-reveal="up" data-delay="260" class="mt-10 flex flex-col gap-4 text-[17px] leading-relaxed text-text-secondary">
+        <p>
+          Trabajo con dueños de negocio y emprendedores que necesitan una
+          presencia digital que realmente funcione — no una página que existe
+          y ya. Llevo más de 5 años construyendo sitios, tiendas y
+          automatizaciones para negocios de toda Argentina y LATAM.
+        </p>
+        <p>
+          No manejo estructuras de agencia. Cuando me contactás, hablás
+          directo conmigo: la misma persona que diseña, programa y entrega.
+          Sin reuniones de coordinación, sin presupuestos que se inflan, sin
+          sorpresas.
+        </p>
+      </div>
+
+      <!-- Availability badge -->
+      <div data-reveal="up" data-delay="320" class="mt-8 flex items-center gap-2">
+        <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-50"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-success"></span>
+        </span>
+        <span class="text-[13px] text-text-secondary">Tomando proyectos ahora</span>
+      </div>
+
+      <!-- Social + CTA -->
+      <div data-reveal="up" data-delay="380" class="mt-5 flex flex-col gap-5">
+        <SocialLinks />
+        <a
+          href={ctaHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-fit items-center gap-2.5 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 text-sm font-semibold text-accent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white"
+        >
+          <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.527 5.877L0 24l6.305-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.367l-.36-.213-3.727.977.995-3.638-.234-.374A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+          </svg>
+          Hablemos por WhatsApp
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  .photo-wrap {
-    aspect-ratio: 4 / 5;
+  .quote-chunk {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(14px);
+    transition:
+      opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+      filter 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  [data-quote-reveal].in-view .quote-chunk {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+  .quote-chunk--accent,
+  .quote-chunk--accent-light {
+    border-radius: 8px;
+    padding: 0 0.35em;
+    border: 1.5px dashed transparent;
+  }
+  [data-quote-reveal].in-view .quote-chunk--accent {
+    color: var(--accent-light);
+    border-color: rgba(124, 82, 232, 0.5);
+  }
+  [data-quote-reveal].in-view .quote-chunk--accent-light {
+    color: var(--accent-light);
+    border-color: rgba(157, 127, 245, 0.55);
   }
 </style>
+
+<script>
+  const quote = document.querySelector<HTMLElement>('[data-quote-reveal]');
+  if (quote) {
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            quote.classList.add('in-view');
+            obs.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(quote);
+  }
+</script>
