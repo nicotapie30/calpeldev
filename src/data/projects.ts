@@ -25,14 +25,13 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    name: 'Gallego Cazaux Inmobiliaria',
-    type: 'Sitio institucional + CMS',
-    stack: ['Next.js', 'Sanity', 'Tailwind', 'Vercel'],
+    name: 'Gimnasio Oxígeno',
+    type: 'Sitio comercial con clases y horarios',
+    stack: ['Next.js', 'Tailwind'],
     description:
-      'Sitio profesional con gestión de propiedades en tiempo real. La inmobiliaria carga, edita y publica desde un panel propio.',
-    link: 'https://gallego-cazaux-demo.vercel.app/',
-    image: gallegoCazaux,
-    featured: true,
+      'Sitio para gimnasio con planes de membresía, grilla de actividades y formulario de contacto directo.',
+    link: 'https://demo-gym-oxigeno.vercel.app/',
+    image: gimnasio,
   },
   {
     name: 'Isolina',
@@ -71,13 +70,14 @@ export const projects: Project[] = [
     image: pampaDigital,
   },
   {
-    name: 'Gimnasio Oxígeno',
-    type: 'Sitio comercial con clases y horarios',
-    stack: ['Next.js', 'Tailwind'],
+    name: 'Gallego Cazaux Inmobiliaria',
+    type: 'Sitio institucional + CMS',
+    stack: ['Next.js', 'Sanity', 'Tailwind', 'Vercel'],
     description:
-      'Sitio para gimnasio con planes de membresía, grilla de actividades y formulario de contacto directo.',
-    link: 'https://demo-gym-oxigeno.vercel.app/',
-    image: gimnasio,
+      'Sitio profesional con gestión de propiedades en tiempo real. La inmobiliaria carga, edita y publica desde un panel propio.',
+    link: 'https://gallego-cazaux-demo.vercel.app/',
+    image: gallegoCazaux,
+    featured: true,
   },
   {
     name: 'Alma Café',
