@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://calpel.dev/sitemap-index.xml

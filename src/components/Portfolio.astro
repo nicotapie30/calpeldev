@@ -1,0 +1,143 @@
+---
+import { getImage } from 'astro:assets';
+import SectionHeading from './SectionHeading.astro';
+import ProjectCard from './ProjectCard.astro';
+import PortfolioParallax from './PortfolioParallax';
+import { projects } from '../data/projects';
+
+const featured = projects.filter((p) => p.featured && !p.reserved);
+const normal   = projects.filter((p) => !p.featured && !p.reserved);
+const reserved = projects.find((p) => p.reserved);
+
+// PortfolioParallax es un island client:only — no puede usar <Image>, así que
+// optimizamos acá (resize + webp) y le pasamos strings de src ya procesados.
+const parallaxProjects = await Promise.all(
+  projects
+    .filter((p) => !p.reserved)
+    .map(async (p) => ({
+      ...p,
+      image: p.image ? (await getImage({ src: p.image, width: 960, height: 480, format: 'webp' })).src : null,
+    })),
+);
+---
+
+<section id="portfolio" class="scroll-mt-24 relative bg-bg-secondary/30 py-24 lg:pt-40 lg:pb-0">
+
+  <!-- Panel izquierdo con corte diagonal (espejo del Hero: leans right) -->
+  <!-- clip-path: de (21%, top) a (35%, bottom) -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 hidden xl:block z-0"
+    style="background: linear-gradient(to left, transparent 0%, var(--panel-diagonal-from) 22%, var(--panel-diagonal-to) 100%); clip-path: polygon(0 0, 20.8% 0, 34.7% 100%, 0 100%);">
+  </div>
+
+  <!-- Slash line izquierda (leans right — espejo del Hero) -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 hidden xl:block z-0">
+    <svg width="100%" height="100%" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="portfolio-slash" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="rgba(124,82,232,0)"/>
+          <stop offset="20%"  stop-color="rgba(124,82,232,0.28)"/>
+          <stop offset="80%"  stop-color="rgba(124,82,232,0.2)"/>
+          <stop offset="100%" stop-color="rgba(124,82,232,0)"/>
+        </linearGradient>
+      </defs>
+      <line x1="300" y1="0" x2="500" y2="900" stroke="url(#portfolio-slash)" stroke-width="1.5"/>
+      <line x1="284" y1="0" x2="484" y2="900" stroke="url(#portfolio-slash)" stroke-width="1" opacity="0.28"/>
+    </svg>
+  </div>
+
+  <!-- Orb derecho — ilumina las project cards -->
+  <div aria-hidden="true" class="pointer-events-none absolute right-0 top-1/3 h-[500px] w-[500px] rounded-full bg-accent opacity-[0.06] blur-[160px]"></div>
+  <div class="container-site relative z-[1]">
+    <SectionHeading
+      eyebrow="Trabajos"
+      title="Proyectos que ya están en producción."
+      subtitle="Una muestra de lo que construí para clientes reales."
+    />
+  </div>
+
+  <!-- Mobile / tablet: bento grid original -->
+  <div class="container-site mt-12 lg:hidden relative z-[1]">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+
+      {featured.map((p) => (
+        <div class="md:col-span-2 card-reveal" data-dir="left" data-delay="0">
+          <ProjectCard project={p} featured />
+        </div>
+      ))}
+
+      {normal.slice(0, 1).map((p) => (
+        <div class="card-reveal h-full" data-dir="right" data-delay="100">
+          <ProjectCard project={p} stretch />
+        </div>
+      ))}
+
+      {normal.slice(1, 2).map((p) => (
+        <div class="card-reveal h-full" data-dir="bottom-left" data-delay="0">
+          <ProjectCard project={p} stretch />
+        </div>
+      ))}
+
+      {normal.slice(2, 3).map((p) => (
+        <div class="card-reveal h-full" data-dir="bottom" data-delay="100">
+          <ProjectCard project={p} stretch />
+        </div>
+      ))}
+
+      {normal.slice(3).map((p) => (
+        <div class="card-reveal h-full" data-dir="bottom-right" data-delay="200">
+          <ProjectCard project={p} stretch />
+        </div>
+      ))}
+
+      {reserved && (
+        <div class="md:col-span-2 lg:col-span-3 card-reveal" data-dir="bottom" data-delay="0">
+          <ProjectCard project={reserved} />
+        </div>
+      )}
+
+    </div>
+  </div>
+
+  <!-- Desktop: parallax scroll -->
+  <div class="hidden lg:block mt-16" style="overflow-x: clip">
+    <PortfolioParallax projects={parallaxProjects} client:only="react" />
+  </div>
+</section>
+
+<style>
+  .card-reveal {
+    opacity: 0;
+    transition:
+      opacity  0.65s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .card-reveal[data-dir="left"]         { transform: translateX(-48px); }
+  .card-reveal[data-dir="right"]        { transform: translateX(48px); }
+  .card-reveal[data-dir="bottom"]       { transform: translateY(48px); }
+  .card-reveal[data-dir="bottom-left"]  { transform: translate(-32px, 40px); }
+  .card-reveal[data-dir="bottom-right"] { transform: translate(32px, 40px); }
+
+  .card-reveal.in-view {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+</style>
+
+<script>
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.card-reveal'));
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        const delay = parseInt(el.dataset.delay ?? '0', 10);
+        setTimeout(() => el.classList.add('in-view'), delay);
+        obs.unobserve(el);
+      });
+    },
+    { threshold: 0.12 },
+  );
+
+  cards.forEach((c) => obs.observe(c));
+</script>

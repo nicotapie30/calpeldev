@@ -1,0 +1,106 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import ServiceCard from './ServiceCard.astro';
+import { services } from '../data/services';
+---
+
+<section id="servicios" class="scroll-mt-24 relative pt-24 lg:pt-32">
+
+  <!-- Orb izquierdo -->
+  <div aria-hidden="true" class="pointer-events-none absolute -left-48 top-0 h-[600px] w-[600px] rounded-full bg-accent opacity-[0.05] blur-[180px]"></div>
+  <div class="container-site">
+    <SectionHeading
+      eyebrow="Lo que hacemos"
+      title="Tu negocio, potenciado con tecnología."
+    />
+  </div>
+
+  <div class="relative mt-16 pb-[35vh]" id="cards-track">
+    {services.map((service, i) => (
+      <div style="display:contents">
+        <div
+          class="sticky px-4 sm:px-6 lg:px-8"
+          style={`top: ${80 + i * 20}px; z-index: ${i + 1};`}
+          data-stacked-card={i}
+        >
+          <div class="mx-auto max-w-5xl">
+            <ServiceCard service={service} />
+          </div>
+        </div>
+        {i < services.length - 1 && (
+          <div class="h-[65vh]" aria-hidden="true" />
+        )}
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById('cards-track') as HTMLElement;
+  const cards = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-stacked-card]'),
+  );
+
+  if (track && cards.length) {
+    const ZONE = window.innerHeight * 0.65;
+    const MAX_TILT = 4;
+
+    const T_SCROLL = 'transform 0.35s cubic-bezier(0.23,1,0.32,1), filter 0.35s cubic-bezier(0.23,1,0.32,1)';
+    const T_TILT   = 'transform 0.08s ease, filter 0.35s cubic-bezier(0.23,1,0.32,1)';
+    const T_RESET  = 'transform 0.55s cubic-bezier(0.23,1,0.32,1), filter 0.35s cubic-bezier(0.23,1,0.32,1)';
+
+    const state = cards.map(() => ({ scale: 1, brightness: 1, rx: 0, ry: 0, hovering: false }));
+
+    function applyTransform(i: number) {
+      const article = cards[i].querySelector<HTMLElement>('article');
+      if (!article) return;
+      const { scale, brightness, rx, ry } = state[i];
+      article.style.transform = `perspective(900px) scale(${scale}) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      article.style.filter = `brightness(${brightness})`;
+    }
+
+    function update() {
+      const scrolled = -track.getBoundingClientRect().top;
+      cards.forEach((wrapper, i) => {
+        const article = wrapper.querySelector<HTMLElement>('article');
+        if (!article) return;
+        if (!state[i].hovering) article.style.transition = T_SCROLL;
+
+        const cardsOnTop = Math.max(0, Math.min(
+          Math.floor((scrolled - i * ZONE) / ZONE),
+          cards.length - 1 - i,
+        ));
+        state[i].scale      = Math.max(1 - cardsOnTop * 0.035, 0.87);
+        state[i].brightness = Math.max(1 - cardsOnTop * 0.12,  0.60);
+        applyTransform(i);
+      });
+    }
+
+    cards.forEach((wrapper, i) => {
+      const article = wrapper.querySelector<HTMLElement>('article');
+      if (!article) return;
+
+      article.addEventListener('mousemove', (e: MouseEvent) => {
+        state[i].hovering = true;
+        article.style.transition = T_TILT;
+        const rect = article.getBoundingClientRect();
+        const dx = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2);
+        const dy = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2);
+        state[i].rx = -dy * MAX_TILT;
+        state[i].ry =  dx * MAX_TILT;
+        applyTransform(i);
+      });
+
+      article.addEventListener('mouseleave', () => {
+        state[i].hovering = false;
+        state[i].rx = 0;
+        state[i].ry = 0;
+        article.style.transition = T_RESET;
+        applyTransform(i);
+      });
+    });
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

@@ -1,0 +1,194 @@
+---
+import '@fontsource-variable/geist/index.css';
+import '../styles/global.css';
+import { site } from '../data/site';
+import { faq } from '../data/faq';
+import IntroOverlay from '../components/IntroOverlay.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Ruta absoluta o relativa de la imagen OG. */
+  image?: string;
+}
+
+const {
+  title = 'CalPel.dev — Desarrollo web a medida en Argentina',
+  description = 'Sitios web, ecommerce y automatizaciones a medida para PyMEs, agencias y emprendedores. Desde Santa Rosa, La Pampa, para toda Argentina y LATAM.',
+  image = '/og-image.webp',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+const logoUrl = new URL('/logo-symbol.png', site.url).href;
+
+const sameAs = [
+  site.social.instagram,
+  site.social.linkedin,
+  site.social.github,
+  ...(site.social.twitter ? [site.social.twitter] : []),
+].filter(Boolean);
+
+const schemaBusiness = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'ProfessionalService'],
+  '@id': `${site.url}/#business`,
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  email: site.email,
+  telephone: `+${site.whatsappNumber}`,
+  logo: { '@type': 'ImageObject', url: logoUrl },
+  image: ogImage,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Santa Rosa',
+    addressRegion: 'La Pampa',
+    addressCountry: 'AR',
+  },
+  founder: { '@type': 'Person', '@id': `${site.url}/#person`, name: site.author },
+  areaServed: ['Argentina', 'LATAM', 'Spain'],
+  priceRange: '$$',
+  sameAs,
+};
+
+const schemaPerson = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${site.url}/#person`,
+  name: site.author,
+  url: site.url,
+  jobTitle: 'Desarrollador Web Freelance',
+  email: site.email,
+  worksFor: { '@id': `${site.url}/#business` },
+  sameAs,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Santa Rosa',
+    addressRegion: 'La Pampa',
+    addressCountry: 'AR',
+  },
+};
+
+const schemaWebSite = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  description: site.description,
+  publisher: { '@id': `${site.url}/#business` },
+};
+
+const schemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+---
+
+<!doctype html>
+<html lang="es" class="overflow-x-hidden">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f0f0f" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.author} />
+    <meta
+      name="keywords"
+      content="desarrollo web argentina, freelance dev, next.js argentina, astro argentina, ecommerce a medida, santa rosa la pampa, automatizaciones, apps a medida, LATAM"
+    />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon-192.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content={`${site.name} — Desarrollo web a medida en Argentina`} />
+    <meta property="og:locale" content="es_AR" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${site.name} — Desarrollo web a medida en Argentina`} />
+    {site.social.twitter && <meta name="twitter:creator" content={site.social.twitter} />}
+
+    <!-- Structured data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaBusiness)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaPerson)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaWebSite)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaFaq)} />
+  </head>
+
+  <body>
+    <IntroOverlay />
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-btn focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
+    >
+      Saltar al contenido
+    </a>
+    <slot />
+
+    <!-- Animaciones de entrada por scroll -->
+    <script>
+      // Compat. backward: secciones con class="reveal"
+      const legacyEls = document.querySelectorAll('.reveal');
+      if (legacyEls.length) {
+        const ioLegacy = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0, rootMargin: '0px 0px -60px 0px' },
+        );
+        legacyEls.forEach((el) => ioLegacy.observe(el));
+      }
+
+      // Sistema [data-reveal]: direccional + delay configurable
+      const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (revealEls.length) {
+        const ioReveal = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                const el = e.target as HTMLElement;
+                const delay = el.dataset.delay;
+                if (delay) el.style.transitionDelay = `${delay}ms`;
+                el.classList.add('in-view');
+                obs.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0, rootMargin: '0px 0px -40px 0px' },
+        );
+        revealEls.forEach((el) => ioReveal.observe(el));
+      }
+    </script>
+  </body>
+</html>

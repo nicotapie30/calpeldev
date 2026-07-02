@@ -1,0 +1,199 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { pricingTiers, quoteServices } from '../data/pricing';
+import { whatsappLink } from '../data/site';
+---
+
+<section id="precios" class="scroll-mt-24 relative overflow-hidden py-24 lg:py-32">
+
+  <!-- Panel derecho con corte diagonal (mismo ritmo que Hero) -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 hidden xl:block z-0"
+    style="background: linear-gradient(to right, transparent 0%, var(--panel-diagonal-from) 22%, var(--panel-diagonal-to) 100%); clip-path: polygon(58.3% 0, 100% 0, 100% 100%, 41% 100%);">
+  </div>
+
+  <!-- Slash line derecha -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 hidden xl:block z-0">
+    <svg width="100%" height="100%" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="pricing-slash" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="rgba(124,82,232,0)"/>
+          <stop offset="22%"  stop-color="rgba(124,82,232,0.28)"/>
+          <stop offset="78%"  stop-color="rgba(124,82,232,0.2)"/>
+          <stop offset="100%" stop-color="rgba(124,82,232,0)"/>
+        </linearGradient>
+      </defs>
+      <line x1="840" y1="0" x2="590" y2="900" stroke="url(#pricing-slash)" stroke-width="1.5"/>
+      <line x1="858" y1="0" x2="608" y2="900" stroke="url(#pricing-slash)" stroke-width="1" opacity="0.28"/>
+    </svg>
+  </div>
+
+  <!-- Orb derecho -->
+  <div aria-hidden="true" class="pointer-events-none absolute right-0 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-accent opacity-[0.07] blur-[150px]"></div>
+  <div class="container-site relative z-[1]">
+
+    <SectionHeading
+      eyebrow="Precios"
+      title="Invertí en tu presencia digital."
+      subtitle="Precios de referencia para sitios web. Proyectos a medida se cotizan sin cargo."
+      align="center"
+    />
+
+    <!-- 3 tiers de sitios web -->
+    <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3 md:items-stretch">
+      {pricingTiers.map((tier, i) => (
+        <div
+          data-reveal="up"
+          data-delay={String(i * 100)}
+          class={`pricing-card relative flex h-full flex-col rounded-xl border px-8 py-10 ${
+            tier.featured
+              ? 'featured border-accent bg-bg-surface shadow-[0_0_48px_var(--accent-glow)]'
+              : 'regular border-[var(--border)] bg-bg-secondary'
+          }`}
+        >
+          {tier.featured && (
+            <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-4 py-1 text-xs font-semibold text-white">
+              Más popular
+            </span>
+          )}
+
+          <div>
+            <p class="text-sm font-semibold text-accent">{tier.name}</p>
+            <p class="mt-1 text-sm text-text-secondary">{tier.subtitle}</p>
+          </div>
+
+          <div class="mt-6 border-t border-[var(--border)] pt-6">
+            <p class="text-[2rem] font-bold leading-none tracking-tight text-text-primary">
+              {tier.price}
+            </p>
+            <p class="mt-1 text-xs text-text-faint">{tier.priceNote}</p>
+          </div>
+
+          <ul class="mt-8 flex flex-1 flex-col gap-3">
+            {tier.features.map(feat => (
+              <li class="flex items-start gap-2.5 text-sm text-text-secondary">
+                <svg
+                  class="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 8l3.5 3.5L13 4.5"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                {feat}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={whatsappLink(`Hola, me interesa cotizar: ${tier.name}.`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`mt-8 block rounded-lg px-5 py-3 text-center text-sm font-semibold transition-all ${
+              tier.featured
+                ? 'bg-accent text-white btn-primary'
+                : 'border border-[var(--border)] text-text-primary btn-sweep'
+            }`}
+          >
+            Empezar proyecto
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Proyectos a medida -->
+    <div class="mt-20">
+      <p
+        data-reveal="up"
+        class="text-center text-xs font-semibold uppercase tracking-[0.12em] text-text-secondary"
+      >
+        Proyectos a medida — se cotizan sin cargo
+      </p>
+
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {quoteServices.map((svc, i) => (
+          <div
+            data-reveal="up"
+            data-delay={String(i * 80)}
+            class="flex flex-col gap-4 rounded-xl border border-[var(--border)] bg-bg-secondary p-6"
+          >
+            <div class="flex-1">
+              <p class="font-semibold text-text-primary">{svc.title}</p>
+              <p class="mt-1.5 text-sm leading-relaxed text-text-secondary">
+                {svc.description}
+              </p>
+            </div>
+            <a
+              href={whatsappLink(svc.whatsappMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-light"
+            >
+              Cotizar por WhatsApp
+              <svg class="h-3.5 w-3.5" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path
+                  d="M3 7h8M7 3l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Nota al pie -->
+    <p
+      data-reveal="fade"
+      data-delay="200"
+      class="mt-12 text-center text-xs text-text-faint"
+    >
+      Todos los proyectos incluyen 30 días de soporte post-lanzamiento.
+      Precios en ARS — consultá equivalente en USD.
+    </p>
+
+  </div>
+</section>
+
+<style>
+  .pricing-card {
+    transition:
+      transform     0.45s cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow    0.45s cubic-bezier(0.23, 1, 0.32, 1),
+      border-color  0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
+  }
+
+  .pricing-card:hover {
+    transform: scale(1.03);
+  }
+
+  /* Featured card: siempre más grande que las otras 2, sin depender del contenido */
+  @media (min-width: 768px) {
+    .pricing-card.featured {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Featured card: escala ligeramente más + glow más fuerte */
+  .pricing-card.featured:hover {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 72px var(--accent-glow),
+      0 24px 48px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Cards normales: borde se ilumina + sombra profunda */
+  .pricing-card.regular:hover {
+    border-color: rgba(124, 82, 232, 0.35);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  }
+</style>

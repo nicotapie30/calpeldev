@@ -1,0 +1,219 @@
+---
+import AvailabilityBadge from './AvailabilityBadge.astro';
+import { site, whatsappLink } from '../data/site';
+import { projectTypes } from '../utils/validation';
+
+const wa = whatsappLink('Hola Nico, te escribo por un proyecto.');
+---
+
+<section id="contacto" class="scroll-mt-24 relative overflow-hidden py-24 lg:py-36">
+
+  <!-- Orb centro (existente, mejorado) -->
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+    <div class="h-[600px] w-[800px] rounded-full bg-accent/[0.07] blur-[140px]"></div>
+  </div>
+
+  <!-- Orb esquina superior-izquierda -->
+  <div aria-hidden="true" class="pointer-events-none absolute -left-32 -top-32 h-[400px] w-[400px] rounded-full bg-accent opacity-[0.05] blur-[140px]"></div>
+  <!-- Orb esquina inferior-derecha -->
+  <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 -right-32 h-[400px] w-[400px] rounded-full bg-accent opacity-[0.05] blur-[140px]"></div>
+
+  <!-- Diagonal accent line (sutil, enmarca el contenido) -->
+  <div aria-hidden="true" class="pointer-events-none absolute top-0 left-0 w-full" style="height: 1px; overflow: visible;">
+    <svg width="100%" viewBox="0 0 1440 1" preserveAspectRatio="none" style="height:1px; overflow:visible; display:block;">
+      <defs>
+        <linearGradient id="contact-top-line" x1="0" x2="1440" y1="0" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="rgba(124,82,232,0)"/>
+          <stop offset="25%"  stop-color="rgba(124,82,232,0.25)"/>
+          <stop offset="75%"  stop-color="rgba(124,82,232,0.25)"/>
+          <stop offset="100%" stop-color="rgba(124,82,232,0)"/>
+        </linearGradient>
+      </defs>
+      <line x1="0" y1="0" x2="1440" y2="8" stroke="url(#contact-top-line)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="container-site relative">
+
+    <!-- CTA hero -->
+    <div data-reveal="zoom" class="mx-auto max-w-2xl text-center">
+      <AvailabilityBadge />
+      <h2 class="mt-6 text-[clamp(28px,4vw,48px)] font-semibold leading-[1.05] tracking-[-0.03em] text-text-primary">
+        Tu próximo proyecto<br>empieza acá.
+      </h2>
+      <p class="mx-auto mt-5 max-w-lg text-[17px] leading-relaxed text-text-secondary">
+        Contame qué necesitás y te respondo el mismo día.
+        Sin intermediarios, sin burocracia.
+      </p>
+
+      <!-- Primary CTAs -->
+      <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <a
+          href={wa}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 font-semibold text-white hover:bg-accent-hover sm:w-auto"
+        >
+          Escribime directo
+        </a>
+        <a
+          href={site.calendarUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-sweep inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border-base px-7 py-3.5 font-semibold text-text-primary sm:w-auto"
+        >
+          Agendá una llamada
+          <span class="text-[13px] font-normal text-text-faint">· 30 min</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="mx-auto mt-16 max-w-[600px] lg:mt-20">
+      <div class="flex items-center gap-4">
+        <div class="h-px flex-1 bg-border-base"></div>
+        <span class="text-[13px] text-text-faint">o completá el formulario</span>
+        <div class="h-px flex-1 bg-border-base"></div>
+      </div>
+    </div>
+
+    <!-- Form — los datos se arman como mensaje de WhatsApp al enviar -->
+    <form data-reveal="up" data-delay="120"
+      id="contact-form"
+      class="mx-auto mt-8 flex max-w-[600px] flex-col gap-5"
+      novalidate
+      data-wa-number={site.whatsappNumber}
+    >
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium text-text-primary">Nombre</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            aria-describedby="name-error"
+            class="rounded-btn border border-border-base bg-bg-secondary/40 px-3.5 py-2.5 text-[15px] text-text-primary outline-none transition-colors placeholder:text-text-secondary/60 focus:border-accent"
+            placeholder="Tu nombre"
+          />
+          <p id="name-error" class="hidden text-[13px] text-error" role="alert"></p>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-sm font-medium text-text-primary">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            aria-describedby="email-error"
+            class="rounded-btn border border-border-base bg-bg-secondary/40 px-3.5 py-2.5 text-[15px] text-text-primary outline-none transition-colors placeholder:text-text-secondary/60 focus:border-accent"
+            placeholder="vos@ejemplo.com"
+          />
+          <p id="email-error" class="hidden text-[13px] text-error" role="alert"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label for="projectType" class="text-sm font-medium text-text-primary">Tipo de proyecto</label>
+        <select
+          id="projectType"
+          name="projectType"
+          required
+          aria-describedby="projectType-error"
+          class="rounded-btn border border-border-base bg-bg-secondary/40 px-3.5 py-2.5 text-[15px] text-text-primary outline-none transition-colors focus:border-accent"
+        >
+          <option value="" disabled selected>Elegí una opción…</option>
+          {projectTypes.map((t) => <option value={t.value}>{t.label}</option>)}
+        </select>
+        <p id="projectType-error" class="hidden text-[13px] text-error" role="alert"></p>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label for="message" class="text-sm font-medium text-text-primary">Contame sobre tu proyecto</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          minlength="20"
+          aria-describedby="message-error"
+          class="resize-y rounded-btn border border-border-base bg-bg-secondary/40 px-3.5 py-2.5 text-[15px] text-text-primary outline-none transition-colors placeholder:text-text-secondary/60 focus:border-accent"
+          placeholder="Qué necesitás, plazos, presupuesto aproximado…"></textarea>
+        <p id="message-error" class="hidden text-[13px] text-error" role="alert"></p>
+      </div>
+
+      <!-- Honeypot -->
+      <div class="absolute -left-[9999px]" aria-hidden="true">
+        <label for="website">No completar</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button
+        type="submit"
+        class="btn-primary inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-btn bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-hover"
+      >
+        Enviar por WhatsApp
+      </button>
+    </form>
+
+  </div>
+</section>
+
+<script>
+  import { contactSchema, projectTypes } from '../utils/validation';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const waNumber = form.dataset.waNumber ?? '';
+    const fields = ['name', 'email', 'projectType', 'message'] as const;
+
+    function showError(field: string, msg: string) {
+      const el = document.getElementById(`${field}-error`);
+      const input = document.getElementById(field);
+      if (el) { el.textContent = msg; el.classList.remove('hidden'); }
+      input?.setAttribute('aria-invalid', 'true');
+    }
+
+    function clearErrors() {
+      fields.forEach((f) => {
+        document.getElementById(`${f}-error`)?.classList.add('hidden');
+        document.getElementById(f)?.removeAttribute('aria-invalid');
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      const result = contactSchema.safeParse(data);
+
+      if (!result.success) {
+        for (const issue of result.error.issues) {
+          showError(String(issue.path[0]), issue.message);
+        }
+        return;
+      }
+
+      const { name, email, projectType, message } = result.data;
+      const projectLabel = projectTypes.find((t) => t.value === projectType)?.label ?? projectType;
+
+      const text = [
+        `Hola Nico, te escribo desde calpel.dev.`,
+        ``,
+        `*Nombre:* ${name}`,
+        `*Email:* ${email}`,
+        `*Proyecto:* ${projectLabel}`,
+        ``,
+        `*Consulta:*`,
+        message,
+      ].join('\n');
+
+      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+      form.reset();
+    });
+  }
+</script>

@@ -1,0 +1,223 @@
+---
+// IntroOverlay — Curtain reveal con split del logo CalPel
+// Dos paneles que se abren al costado, partiendo el diamond a la mitad
+---
+
+<div id="intro-overlay" aria-hidden="true">
+
+  <!-- Cortina izquierda -->
+  <div id="intro-left" class="intro-panel intro-panel--left">
+    <div class="intro-logo intro-logo--left">
+      <img src="/logo-symbol.svg" width="112" height="112" alt="" draggable="false" />
+      <p class="intro-wordmark">CALPEL<span>.DEV</span></p>
+    </div>
+  </div>
+
+  <!-- Seam — línea de corte vertical -->
+  <div id="intro-seam" aria-hidden="true"></div>
+
+  <!-- Cortina derecha -->
+  <div id="intro-right" class="intro-panel intro-panel--right">
+    <div class="intro-logo intro-logo--right">
+      <img src="/logo-symbol.svg" width="112" height="112" alt="" draggable="false" />
+      <p class="intro-wordmark">CALPEL<span>.DEV</span></p>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* ─── Overlay ─────────────────────────────────────────── */
+  #intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    display: flex;
+    pointer-events: all;
+    user-select: none;
+  }
+
+  /* ─── Paneles ─────────────────────────────────────────── */
+  .intro-panel {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background-color: #080818;
+    overflow: hidden;
+    flex-shrink: 0;
+    will-change: transform;
+    transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  /* Sutil grain texture encima de cada panel */
+  .intro-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .intro-panel--left.open  { transform: translateX(-100%); }
+  .intro-panel--right.open { transform: translateX(100%); }
+
+  /* ─── Logo — posicionado con centro en el seam (x=50vw) ── */
+  .intro-logo {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    opacity: 0;
+    animation: intro-logo-in 0.55s cubic-bezier(0.23, 1, 0.32, 1) 0.25s forwards;
+  }
+
+  .intro-logo--left  {
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+  .intro-logo--right {
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  @keyframes intro-logo-in {
+    from {
+      opacity: 0;
+      margin-top: 10px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0;
+    }
+  }
+
+  /* Glow sobre el diamond */
+  .intro-logo img {
+    filter: drop-shadow(0 0 28px rgba(124, 82, 232, 0.45));
+    display: block;
+  }
+
+  /* ─── Wordmark ────────────────────────────────────────── */
+  .intro-wordmark {
+    font-family: var(--font-sans);
+    font-size: 2.25rem;
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    color: #F0F0FF;
+    white-space: nowrap;
+    line-height: 1;
+    margin: 0;
+    text-align: center;
+  }
+  .intro-wordmark span {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: #6366F1;
+    opacity: 0.9;
+  }
+
+  /* ─── Seam line ───────────────────────────────────────── */
+  #intro-seam {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(124, 82, 232, 0.5) 20%,
+      rgba(157, 127, 245, 0.8) 50%,
+      rgba(124, 82, 232, 0.5) 80%,
+      transparent 100%
+    );
+    opacity: 0;
+    animation: seam-appear 0.4s ease-out 0.6s forwards;
+    transition: opacity 0.35s ease;
+  }
+
+  #intro-seam.seam-pulse {
+    animation: seam-pulse-anim 0.45s ease-out forwards;
+  }
+
+  #intro-seam.seam-hide {
+    opacity: 0 !important;
+    transition: opacity 0.25s ease;
+  }
+
+  @keyframes seam-appear {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes seam-pulse-anim {
+    0%   { opacity: 1;    box-shadow: none; }
+    40%  { opacity: 1;    box-shadow: 0 0 18px 4px rgba(157, 127, 245, 0.7); }
+    100% { opacity: 0.25; box-shadow: none; }
+  }
+
+  /* ─── Reduced motion ──────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .intro-panel { transition: none; }
+    .intro-logo  { animation: none; opacity: 1; }
+    #intro-seam  { animation: none; }
+  }
+</style>
+
+<script>
+  (() => {
+    const overlay = document.getElementById('intro-overlay');
+    const left    = document.getElementById('intro-left');
+    const right   = document.getElementById('intro-right');
+    const seam    = document.getElementById('intro-seam');
+
+    if (!overlay || !left || !right) return;
+
+    // No reproducir si ya fue vista en esta sesión
+    if (sessionStorage.getItem('calpel-intro')) {
+      overlay.remove();
+      return;
+    }
+    sessionStorage.setItem('calpel-intro', '1');
+
+    // Motion reducida: quitar overlay de inmediato
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      overlay.remove();
+      return;
+    }
+
+    // Timing:
+    // 0–800ms   → logo fade in (manejado por CSS)
+    // 1050ms    → seam pulse
+    // 1300ms    → paneles se abren (1.05s de duración)
+    // 2400ms    → limpiar overlay, restaurar scroll
+
+    const PULSE_AT  = 1050;
+    const OPEN_AT   = 1300;
+    const CLEANUP   = OPEN_AT + 1100;
+
+    setTimeout(() => {
+      seam?.classList.add('seam-pulse');
+    }, PULSE_AT);
+
+    setTimeout(() => {
+      seam?.classList.add('seam-hide');
+      left.classList.add('open');
+      right.classList.add('open');
+    }, OPEN_AT);
+
+    setTimeout(() => {
+      overlay.remove();
+    }, CLEANUP);
+  })();
+</script>

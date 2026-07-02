@@ -1,0 +1,165 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { testimonials } from '../data/testimonials';
+
+const col1 = testimonials.filter((_, i) => i % 3 === 0);
+const col2 = testimonials.filter((_, i) => i % 3 === 1);
+const col3 = testimonials.filter((_, i) => i % 3 === 2);
+
+const columns = [
+  { items: col1, direction: 'up' },
+  { items: col2, direction: 'down' },
+  { items: col3, direction: 'up' },
+] as const;
+---
+
+<section id="testimonios" class="scroll-mt-24 relative py-24 lg:py-32">
+
+  <!-- Orb izquierdo + derecho -->
+  <div aria-hidden="true" class="pointer-events-none absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full bg-accent opacity-[0.05] blur-[160px]"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -right-32 top-1/4 h-[500px] w-[500px] rounded-full bg-accent opacity-[0.05] blur-[160px]"></div>
+  <div class="container-site relative z-[1]">
+    <SectionHeading
+      eyebrow="Clientes"
+      title="Lo que dicen quienes trabajaron con nosotros."
+      align="center"
+    />
+
+    <div class="relative mt-16 grid grid-cols-1 gap-4 md:grid-cols-3">
+      {columns.map(({ items, direction }, colIdx) => (
+        <div
+          data-reveal="up"
+          data-delay={colIdx * 100}
+          class:list={[
+            'testi-track h-[520px] overflow-hidden',
+            colIdx > 0 && 'hidden md:flex md:flex-col',
+          ]}
+          data-direction={direction}
+        >
+          <div class="testi-inner flex flex-col gap-4">
+            {[...items, ...items].map((t) => (
+              <article class="testi-card flex-shrink-0 rounded-2xl border border-border-base bg-bg-secondary/70 p-5 backdrop-blur-sm">
+                <div class="absolute inset-x-0 top-0 h-px accent-line" aria-hidden="true" />
+                <header class="mb-3 flex items-center gap-3">
+                  <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-accent/15 text-[11px] font-bold text-accent-light">
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-text-primary">{t.name}</p>
+                    <p class="text-xs text-text-faint">{t.role} · {t.city}</p>
+                  </div>
+                </header>
+                <blockquote class="mb-3 text-[13px] leading-relaxed text-text-secondary">
+                  "{t.quote}"
+                </blockquote>
+                <p class="text-xs tracking-[0.2em] text-accent-light" aria-label="5 estrellas">★★★★★</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testi-track {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  }
+
+  .testi-card {
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .testi-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-accent);
+    box-shadow: 0 8px 24px rgba(124, 82, 232, 0.12);
+  }
+
+  .accent-line {
+    background: linear-gradient(90deg, transparent, rgba(124, 82, 232, 0.4) 40%, transparent);
+  }
+
+  .testi-inner {
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testi-track {
+      height: auto;
+      overflow: visible;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .testi-inner {
+      will-change: auto;
+    }
+    /* hide duplicate cards */
+    .testi-inner article:nth-child(n + 4) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const tracks = Array.from(document.querySelectorAll<HTMLElement>('.testi-track'));
+    if (!tracks.length) return;
+
+    const GAP = 16;
+    const offsets: number[] = tracks.map(() => 0);
+    const paused: boolean[] = tracks.map(() => false);
+
+    tracks.forEach((track, i) => {
+      track.addEventListener('mouseenter', () => { paused[i] = true; });
+      track.addEventListener('mouseleave', () => { paused[i] = false; });
+    });
+
+    requestAnimationFrame(() => {
+      const firstInner = tracks[0].querySelector<HTMLElement>('.testi-inner');
+      if (!firstInner) return;
+
+      const cards = Array.from(firstInner.querySelectorAll<HTMLElement>('article'));
+      const half = cards.length / 2;
+      let totalHeight = 0;
+      for (let i = 0; i < half; i++) {
+        totalHeight += cards[i].offsetHeight + GAP;
+      }
+      if (totalHeight === 0) return;
+
+      const SPEED = totalHeight / 30; // full loop in 30s
+      let lastTime = performance.now();
+
+      function tick(now: number) {
+        const dt = (now - lastTime) / 1000;
+        lastTime = now;
+
+        tracks.forEach((track, i) => {
+          if (paused[i]) return;
+          const inner = track.querySelector<HTMLElement>('.testi-inner');
+          if (!inner) return;
+
+          offsets[i] = (offsets[i] + SPEED * dt) % totalHeight;
+
+          const isDown = track.dataset.direction === 'down';
+          inner.style.transform = isDown
+            ? `translateY(${-(totalHeight - offsets[i])}px)`
+            : `translateY(-${offsets[i]}px)`;
+        });
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    });
+  });
+</script>

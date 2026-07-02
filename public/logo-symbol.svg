@@ -1,0 +1,6 @@
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Mitad oscura -->
+  <polygon points="40,4 76,40 40,76 4,40" fill="#4338CA"/>
+  <!-- Mitad clara -->
+  <polygon points="40,4 76,40 40,76" fill="#A78BFA"/>
+</svg>

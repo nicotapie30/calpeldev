@@ -1,0 +1,88 @@
+---
+const tech = [
+  'Next.js', 'Astro', 'React', 'TypeScript', 'Tailwind CSS',
+  'Supabase', 'PostgreSQL', 'Vercel', 'Claude API', 'n8n',
+  'Framer Motion', 'Sanity', 'tRPC', 'Node.js', 'WhatsApp API',
+];
+
+const values = [
+  'Entrega puntual', 'Sin intermediarios', 'Código limpio',
+  'Stack moderno', 'Soporte real', 'A medida', 'Mobile-first',
+  'Performance 90+', 'SEO técnico', 'Diseño con criterio',
+  'Sin boilerplate genérico', 'Escalable desde el día uno',
+];
+---
+
+<div class="relative overflow-hidden py-10 border-y border-border-base bg-bg-secondary/20">
+
+  <!-- Fade edges -->
+  <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-bg-primary to-transparent"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-bg-primary to-transparent"></div>
+
+  <!-- Fila 1: tech → izquierda -->
+  <div class="marquee-track mb-4">
+    <ul class="marquee-list" aria-hidden="true">
+      {[...tech, ...tech].map((item) => (
+        <li class="marquee-item">
+          <span class="font-mono text-sm font-medium text-text-secondary">{item}</span>
+          <span class="text-accent" aria-hidden="true">·</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Fila 2: valores → derecha -->
+  <div class="marquee-track marquee-reverse">
+    <ul class="marquee-list" aria-hidden="true">
+      {[...values, ...values].map((item) => (
+        <li class="marquee-item">
+          <span class="text-sm font-medium text-text-faint">{item}</span>
+          <span class="text-border-accent" aria-hidden="true">◆</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+</div>
+
+<style>
+  .marquee-track {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .marquee-list {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+    min-width: 100%;
+    animation: marquee-left 30s linear infinite;
+  }
+
+  .marquee-reverse .marquee-list {
+    animation: marquee-right 38s linear infinite;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-inline: 1rem;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-list { animation: none; }
+  }
+</style>

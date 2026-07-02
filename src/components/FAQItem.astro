@@ -1,0 +1,48 @@
+---
+import type { FaqItem } from '../data/faq';
+interface Props {
+  item: FaqItem;
+  index: number;
+}
+const { item, index } = Astro.props;
+const btnId = `faq-btn-${index}`;
+const panelId = `faq-panel-${index}`;
+const num = String(index + 1).padStart(2, '0');
+---
+
+<div class="border-t border-border-base" data-faq>
+  <h3>
+    <button
+      id={btnId}
+      type="button"
+      aria-expanded="false"
+      aria-controls={panelId}
+      data-faq-trigger
+      class="group -mx-3 flex w-full items-start gap-4 rounded-lg px-3 py-5 text-left transition-colors duration-200 hover:bg-white/[0.03]"
+    >
+      <span
+        class="mt-1 w-6 shrink-0 font-mono text-[11px] font-semibold tracking-wider text-text-faint"
+        aria-hidden="true"
+      >{num}</span>
+      <span
+        class="flex-1 text-[17px] font-semibold leading-snug text-text-primary transition-colors duration-200 group-hover:text-accent"
+        data-faq-question
+      >{item.question}</span>
+      <span
+        class="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border-base text-[18px] font-light leading-none text-text-faint transition-all duration-300 group-hover:border-accent/50 group-hover:text-accent"
+        data-faq-icon
+        aria-hidden="true"
+      >+</span>
+    </button>
+  </h3>
+  <div id={panelId} role="region" aria-labelledby={btnId} data-faq-panel>
+    <div class="overflow-hidden">
+      <div class="flex gap-4 pb-6">
+        <span class="w-6 shrink-0" aria-hidden="true"></span>
+        <p class="flex-1 text-[15px] leading-relaxed text-text-secondary">
+          {item.answer}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

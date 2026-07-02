@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import { ExternalLink } from '@lucide/astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  featured?: boolean;
+  stretch?: boolean;
+}
+const { project, featured = false, stretch = false } = Astro.props;
+const { name, type, stack, description, link, image, reserved } = project;
+
+const index = (() => {
+  const map: Record<string, string> = {
+    'Gallego Cazaux Inmobiliaria': '01',
+    'Isolina':                     '02',
+    'Estudio Jurídico':            '03',
+    'Estudio Contable':            '04',
+    'Pampa Digital':               '05',
+    'Gimnasio Oxígeno':            '06',
+    'Alma Café':                   '07',
+    'Espacio Sereno':              '08',
+    'Geo Argentina API':           '09',
+  };
+  return map[name] ?? '';
+})();
+---
+
+{reserved ? (
+  <!-- Slot reservado -->
+  <article class="reserved-card group relative flex flex-col items-center justify-center overflow-hidden rounded-card px-8 py-16 text-center md:py-20">
+
+    <!-- Dot grid -->
+    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, rgba(124,82,232,0.5) 1px, transparent 1px); background-size: 28px 28px;"></div>
+    <!-- Glow -->
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 60%, rgba(124,82,232,0.1) 0%, transparent 65%);"></div>
+
+    <div class="relative z-10 flex flex-col items-center gap-6">
+      <!-- Icono + -->
+      <div class="flex h-12 w-12 items-center justify-center rounded-full border border-accent/30 bg-accent/10 text-2xl font-light text-accent transition-all duration-300 group-hover:border-accent/60 group-hover:bg-accent/20">
+        +
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-xl font-bold tracking-tight text-text-primary md:text-2xl">
+          El próximo puede ser tuyo.
+        </p>
+        <p class="max-w-md text-[15px] leading-relaxed text-text-secondary">
+          Hay un lugar reservado para el próximo proyecto. Si tenés una idea, un negocio que escalar, o algo que construir — hablemos.
+        </p>
+      </div>
+
+      <a
+        href="#contacto"
+        class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:border-accent hover:bg-accent hover:text-white"
+      >
+        Empezar conversación
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </article>
+) : (
+  <!-- Card normal / featured -->
+  <article class:list={["group relative flex flex-col overflow-hidden rounded-card border border-border-base bg-bg-secondary/40 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(124,82,232,0.08)]", stretch && "h-full"]}>
+
+    <!-- Imagen / placeholder -->
+    <div class:list={['relative overflow-hidden', featured ? 'aspect-[16/8]' : 'aspect-video']}>
+      {image ? (
+        <Image
+          src={image}
+          alt={`Captura del proyecto ${name}`}
+          widths={[400, 800]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+        />
+      ) : (
+        <div class="relative flex h-full w-full items-center justify-center overflow-hidden bg-bg-surface">
+          <!-- Dot grid pattern -->
+          <div
+            class="absolute inset-0 opacity-30"
+            style="background-image: radial-gradient(circle, rgba(124,82,232,0.4) 1px, transparent 1px); background-size: 24px 24px;"
+          ></div>
+          <!-- Glow center -->
+          <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 50%, rgba(124,82,232,0.12) 0%, transparent 70%);"></div>
+          <!-- Número grande -->
+          <span class="relative font-mono text-[5rem] font-bold text-white/[0.06] select-none leading-none">
+            {index}
+          </span>
+        </div>
+      )}
+
+      <!-- Badge featured -->
+      {project.featured && (
+        <span class="absolute left-3 top-3 rounded-full bg-accent/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
+          Destacado
+        </span>
+      )}
+    </div>
+
+    <!-- Contenido -->
+    <div class:list={['flex flex-1 flex-col gap-4 p-5', featured && 'lg:p-6']}>
+
+      <!-- Stack tags -->
+      {stack.length > 0 && (
+        <ul class="flex flex-wrap gap-1.5">
+          {stack.map((s) => (
+            <li class="rounded-full border border-border-base bg-bg-primary/50 px-2.5 py-0.5 font-mono text-[11px] text-text-secondary">
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <!-- Tipo + nombre -->
+      <div class="flex flex-col gap-1">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-accent">{type}</p>
+        <h3 class:list={['font-bold tracking-tight text-text-primary', featured ? 'text-xl lg:text-2xl' : 'text-lg']}>
+          {name}
+        </h3>
+      </div>
+
+      <p class="flex-1 text-[15px] leading-relaxed text-text-secondary">{description}</p>
+
+      {link && (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-fit items-center gap-1.5 text-[14px] font-semibold text-text-primary transition-colors duration-200 hover:text-accent"
+        >
+          Ver sitio
+          <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  </article>
+)}
+
+<style>
+  .reserved-card {
+    background: rgba(124, 82, 232, 0.04);
+    border: 1px solid rgba(124, 82, 232, 0.2);
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .reserved-card:hover {
+    border-color: rgba(124, 82, 232, 0.45);
+    background: rgba(124, 82, 232, 0.07);
+  }
+</style>

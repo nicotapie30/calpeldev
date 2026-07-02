@@ -1,0 +1,112 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import { site, whatsappLink } from '../data/site';
+
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Cómo trabajamos', href: '#proceso' },
+  { label: 'Precios', href: '#precios' },
+  { label: 'Sobre mí', href: '#about' },
+  { label: 'FAQ', href: '#faq' },
+];
+
+const serviceLinks = [
+  { label: 'Sitios web & Ecommerce', href: '#servicios' },
+  { label: 'Apps personalizadas', href: '#servicios' },
+  { label: 'Chatbots con IA', href: '#servicios' },
+  { label: 'Automatizaciones', href: '#servicios' },
+];
+---
+
+<footer class="border-t border-border-base">
+  <div class="container-site py-14 lg:py-16">
+
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+
+      <!-- Marca -->
+      <div data-reveal="up" class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
+        <a href="#top" aria-label="CalPel.dev — inicio">
+          <img src="/logo-horizontal-dark.svg" alt="CalPel.dev" class="h-7 w-auto" />
+        </a>
+        <p class="max-w-xs text-[15px] leading-relaxed text-text-secondary">
+          Desarrollo web a medida desde {site.location}. Para toda Argentina y LATAM.
+        </p>
+        <span class="inline-flex items-center gap-2 text-[13px] text-text-secondary">
+          <span class="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-40"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-success"></span>
+          </span>
+          Tomando proyectos · {year}
+        </span>
+        <div class="mt-1">
+          <SocialLinks />
+        </div>
+      </div>
+
+      <!-- Navegación -->
+      <nav data-reveal="up" data-delay="80" aria-label="Navegación del sitio" class="flex flex-col gap-3">
+        <p class="text-sm font-semibold uppercase tracking-[0.05em] text-text-primary">Navegación</p>
+        <ul class="flex flex-col gap-2">
+          {navLinks.map((l) => (
+            <li>
+              <a href={l.href} class="text-[15px] text-text-secondary transition-colors hover:text-accent">
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Servicios -->
+      <div data-reveal="up" data-delay="160" class="flex flex-col gap-3">
+        <p class="text-sm font-semibold uppercase tracking-[0.05em] text-text-primary">Servicios</p>
+        <ul class="flex flex-col gap-2">
+          {serviceLinks.map((s) => (
+            <li>
+              <a href={s.href} class="text-[15px] text-text-secondary transition-colors hover:text-accent">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contacto -->
+      <div data-reveal="up" data-delay="240" class="flex flex-col gap-3">
+        <p class="text-sm font-semibold uppercase tracking-[0.05em] text-text-primary">Contacto</p>
+        <ul class="flex flex-col gap-2 text-[15px]">
+          <li>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-secondary transition-colors hover:text-accent"
+            >
+              {site.whatsappDisplay}
+            </a>
+          </li>
+          <li>
+            <a
+              href={`mailto:${site.email}`}
+              class="text-text-secondary transition-colors hover:text-accent"
+            >
+              {site.email}
+            </a>
+          </li>
+          <li class="text-text-secondary">{site.location}</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-12 flex flex-col gap-2 border-t border-border-base pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-[13px] text-text-faint">© {year} {site.name}</p>
+      <p class="text-[13px] text-text-faint">Hecho con dedicación en Santa Rosa, La Pampa.</p>
+    </div>
+
+  </div>
+</footer>

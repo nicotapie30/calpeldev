@@ -1,0 +1,230 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Tokens semánticos — dark-only, un único set en :root
+--------------------------------------------------------------------------- */
+:root {
+  /* Fondos */
+  --bg-primary:    #080818;
+  --bg-secondary:  #0e0e24;
+  --bg-surface:    #13132e;
+
+  /* Bordes */
+  --border:        rgba(255, 255, 255, 0.07);
+  --border-accent: rgba(124, 82, 232, 0.35);
+
+  /* Acento violeta (diamante del logo) */
+  --accent:        #7C52E8;
+  --accent-light:  #9D7FF5;
+  --accent-hover:  #6B42D8;
+  --accent-glow:   rgba(124, 82, 232, 0.20);
+
+  /* Texto */
+  --text-primary:  #F0F0FF;
+  --text-secondary:#7A7A9A;
+  --text-faint:    #3A3A5C;
+
+  /* Semánticos de UI */
+  --success:       #10b981;
+  --error:         #f2555c;
+  --navbar-bg:     rgba(8, 8, 24, 0.85);
+
+  /* Panel diagonal — usado en Hero/Portfolio/Pricing para el corte de fondo */
+  --panel-diagonal-from: #0c0c2a;
+  --panel-diagonal-to:   #0d0d2c;
+}
+
+@theme inline {
+  --color-bg-primary:     var(--bg-primary);
+  --color-bg-secondary:   var(--bg-secondary);
+  --color-bg-surface:     var(--bg-surface);
+  --color-border-base:    var(--border);
+  --color-border-accent:  var(--border-accent);
+  --color-accent:         var(--accent);
+  --color-accent-light:   var(--accent-light);
+  --color-accent-hover:   var(--accent-hover);
+  --color-accent-glow:    var(--accent-glow);
+  --color-success:        var(--success);
+  --color-error:          var(--error);
+  --color-text-primary:   var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-faint:     var(--text-faint);
+
+  --font-sans: 'Geist Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  --radius-card: 12px;
+  --radius-btn:  8px;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Foco accesible global */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent);
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Contenedor del sitio: max 1200px, padding lateral responsive (24/48/80)
+--------------------------------------------------------------------------- */
+@utility container-site {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 640px) {
+  .container-site {
+    padding-inline: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .container-site {
+    padding-inline: 5rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Animaciones de entrada por scroll — sistema [data-reveal]
+   BaseLayout.astro agrega .in-view + transitionDelay según data-delay=""
+--------------------------------------------------------------------------- */
+
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity   0.65s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+}
+[data-reveal="up"]    { transform: translateY(36px); }
+[data-reveal="down"]  { transform: translateY(-24px); }
+[data-reveal="left"]  { transform: translateX(-52px); }
+[data-reveal="right"] { transform: translateX(52px); }
+[data-reveal="zoom"]  { transform: scale(0.88); }
+[data-reveal="fade"]  { /* solo opacity, sin transform */ }
+
+[data-reveal].in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Compat. backward — secciones que aún usen class="reveal" */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------------
+   Botones — estilos compartidos
+--------------------------------------------------------------------------- */
+
+/* Primario: lift + glow al hover, press al active */
+.btn-primary {
+  transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 82, 232, 0.30);
+}
+.btn-primary:active {
+  transform: scale(0.97) translateY(0);
+  box-shadow: none;
+}
+
+/* Secundario: sweep de fondo izquierda → derecha al hover */
+.btn-sweep {
+  background: linear-gradient(var(--accent), var(--accent)) no-repeat left center / 0% 100%;
+  transition: background-size 0.35s cubic-bezier(0.32, 0.72, 0, 1),
+              border-color 0.2s ease,
+              color 0.2s ease;
+}
+.btn-sweep:hover {
+  background-size: 100% 100%;
+  border-color: var(--accent);
+  color: white;
+}
+.btn-sweep:active {
+  transform: scale(0.97);
+}
+
+/* ---------------------------------------------------------------------------
+   Acordeón FAQ — alto animable con técnica grid-rows (0fr→1fr).
+--------------------------------------------------------------------------- */
+[data-faq-panel] {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease-out;
+}
+[data-faq-panel].is-open {
+  grid-template-rows: 1fr;
+}
+[data-faq-icon] {
+  transition: transform 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+[data-faq-trigger][aria-expanded='true'] [data-faq-icon] {
+  transform: rotate(45deg);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+[data-faq-trigger][aria-expanded='true'] [data-faq-question] {
+  color: var(--accent);
+}
+
+/* Pulse del punto de disponibilidad */
+@keyframes calpel-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+.animate-pulse-dot {
+  animation: calpel-pulse 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   Respeto a prefers-reduced-motion
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal,
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}

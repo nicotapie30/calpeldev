@@ -1,0 +1,13 @@
+---
+const { text = 'DISPONIBLE PARA NUEVOS PROYECTOS · 2026' } = Astro.props;
+---
+
+<span
+  class="inline-flex items-center gap-2.5 rounded-full border border-border-base px-4 py-1.5 text-[13px] font-medium uppercase tracking-[0.05em] text-text-secondary"
+>
+  <span class="relative grid h-3 w-3 place-items-center" aria-hidden="true">
+    <span class="animate-pulse-dot absolute h-3 w-3 rounded-full bg-success/40"></span>
+    <span class="h-2 w-2 rounded-full bg-success"></span>
+  </span>
+  {text}
+</span>

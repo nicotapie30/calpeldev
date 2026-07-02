@@ -1,0 +1,521 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import AvailabilityBadge from './AvailabilityBadge.astro';
+---
+
+<section
+  id="top"
+  class="relative flex h-[100dvh] flex-col overflow-hidden pt-28 pb-3"
+>
+  <!-- ═══ Background layers ═══ -->
+
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -left-48 -top-48 h-[700px] w-[700px] rounded-full bg-accent opacity-[0.06] blur-[200px]"
+  ></div>
+
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute right-0 top-1/3 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-accent opacity-[0.18] blur-[120px]"
+  ></div>
+
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 hidden xl:block z-0"
+    style="background: linear-gradient(to right, transparent 0%, var(--panel-diagonal-from) 22%, var(--panel-diagonal-to) 100%); clip-path: polygon(58.3% 0, 100% 0, 100% 100%, 41% 100%);"
+  ></div>
+
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 hidden xl:block z-0">
+    <svg width="100%" height="100%" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="hero-slash" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="rgba(124,82,232,0)"/>
+          <stop offset="22%"  stop-color="rgba(124,82,232,0.32)"/>
+          <stop offset="78%"  stop-color="rgba(124,82,232,0.22)"/>
+          <stop offset="100%" stop-color="rgba(124,82,232,0)"/>
+        </linearGradient>
+      </defs>
+      <line x1="840" y1="0" x2="590" y2="900" stroke="url(#hero-slash)" stroke-width="1.5"/>
+      <line x1="858" y1="0" x2="608" y2="900" stroke="url(#hero-slash)" stroke-width="1" opacity="0.28"/>
+    </svg>
+  </div>
+
+  <div aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 w-full z-0" style="height: 1px; overflow: visible;">
+    <svg width="100%" viewBox="0 0 1440 1" preserveAspectRatio="none" style="height: 1px; overflow: visible; display: block;">
+      <defs>
+        <linearGradient id="hero-bottom" x1="0" x2="1440" y1="0" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="rgba(124,82,232,0)"/>
+          <stop offset="20%"  stop-color="rgba(124,82,232,0.28)"/>
+          <stop offset="80%"  stop-color="rgba(124,82,232,0.28)"/>
+          <stop offset="100%" stop-color="rgba(124,82,232,0)"/>
+        </linearGradient>
+      </defs>
+      <line x1="0" y1="0" x2="1440" y2="0" stroke="url(#hero-bottom)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- ═══ Content ═══ -->
+  <div class="relative z-[1] flex flex-1 flex-col px-4 sm:px-6 lg:px-8 xl:px-12">
+
+    <p data-reveal="up" class="mb-5 text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
+      <span class="text-accent-light">◆</span>&nbsp;DESARROLLO WEB · IA · AUTOMATIZACIONES
+    </p>
+
+    <!-- Bento grid -->
+    <div class="hero-grid flex-1">
+
+      <!-- ── Tile 1: Headline + CTAs ── -->
+      <div class="bento-tile bento-main flex flex-col p-8 lg:p-12">
+
+        <h1
+          data-reveal="up"
+          data-delay="120"
+          class="text-[clamp(42px,5.6vw,82px)] font-black leading-[0.92] tracking-[-0.045em] text-text-primary"
+        >
+          Sitios que venden.<br />
+          Apps que<br />
+          funcionan<span class="text-accent-light">.</span>
+        </h1>
+
+        <div>
+          <p data-reveal="up" data-delay="240" class="mt-6 max-w-md text-base leading-relaxed text-text-secondary lg:text-lg">
+            Desarrollo web, apps y automatizaciones a medida para PyMEs, agencias y
+            emprendedores. Desde Argentina, con stack moderno y entrega prolija.
+          </p>
+
+          <div data-reveal="up" data-delay="360" class="mt-7 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#contacto"
+              class="btn-primary group inline-flex items-center justify-center gap-2 rounded-btn bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-hover"
+            >
+              Empezar un proyecto
+              <ArrowRight
+                class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
+            <a
+              href="#portfolio"
+              class="btn-sweep inline-flex items-center justify-center rounded-btn border border-border-base px-6 py-3 font-semibold text-text-primary"
+            >
+              Ver trabajos
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Tile 2: Browser mock (hidden mobile, col-2 row-span-2 md+) ── -->
+      <div class="bento-tile bento-mock relative hidden md:flex md:flex-col" aria-hidden="true">
+
+        <div class="mock-chrome">
+          <div class="mock-dots">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-y"></span>
+            <span class="dot dot-g"></span>
+          </div>
+          <div class="mock-url">calpel.dev/proyecto</div>
+        </div>
+
+        <div class="mock-slides-wrap">
+
+          <!-- A: Landing dark -->
+          <div class="mock-slide is-active" data-url="calpel.dev/proyecto">
+            <div class="sa">
+              <div class="sa-nav">
+                <div class="sa-logo"></div>
+                <div class="sa-links"><span></span><span></span><span></span></div>
+              </div>
+              <div class="sa-hero">
+                <div class="sa-h1"></div>
+                <div class="sa-h1 sa-h1-s"></div>
+                <div class="sa-line"></div>
+                <div class="sa-line sa-line-s"></div>
+                <div class="sa-cta"></div>
+              </div>
+              <div class="sa-cards">
+                <div class="sa-card"></div>
+                <div class="sa-card"></div>
+                <div class="sa-card"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- B: E-commerce light -->
+          <div class="mock-slide" data-url="mitienda.com/shop">
+            <div class="sb">
+              <div class="sb-nav">
+                <div class="sb-logo"></div>
+                <div class="sb-actions">
+                  <div class="sb-search"></div>
+                  <div class="sb-cart"></div>
+                </div>
+              </div>
+              <div class="sb-banner">
+                <div class="sb-badge"></div>
+                <div class="sb-title"></div>
+                <div class="sb-sub"></div>
+                <div class="sb-cta"></div>
+              </div>
+              <div class="sb-grid">
+                <div class="sb-product"><div class="sb-img"></div><div class="sb-pname"></div><div class="sb-row"><div class="sb-price"></div><div class="sb-btn"></div></div></div>
+                <div class="sb-product"><div class="sb-img sb-img-alt"></div><div class="sb-pname sb-pname-s"></div><div class="sb-row"><div class="sb-price"></div><div class="sb-btn"></div></div></div>
+                <div class="sb-product"><div class="sb-img sb-img-b"></div><div class="sb-pname"></div><div class="sb-row"><div class="sb-price sb-price-off"></div><div class="sb-btn"></div></div></div>
+                <div class="sb-product"><div class="sb-img sb-img-c"></div><div class="sb-pname sb-pname-s"></div><div class="sb-row"><div class="sb-price"></div><div class="sb-btn"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- C: App / Dashboard -->
+          <div class="mock-slide" data-url="app.empresa.com/panel">
+            <div class="sc">
+              <div class="sc-sidebar">
+                <div class="sc-logo"></div>
+                <div class="sc-nav">
+                  <span class="sc-item sc-active"></span>
+                  <span class="sc-item"></span>
+                  <span class="sc-item"></span>
+                  <span class="sc-item"></span>
+                </div>
+              </div>
+              <div class="sc-main">
+                <div class="sc-header">
+                  <div class="sc-crumb"></div>
+                  <div class="sc-avatar"></div>
+                </div>
+                <div class="sc-stats">
+                  <div class="sc-stat"><div class="sc-num"></div><div class="sc-lbl"></div></div>
+                  <div class="sc-stat"><div class="sc-num sc-num-b"></div><div class="sc-lbl"></div></div>
+                  <div class="sc-stat"><div class="sc-num sc-num-c"></div><div class="sc-lbl"></div></div>
+                </div>
+                <div class="sc-chart">
+                  <div class="sc-bar" style="height:55%"></div>
+                  <div class="sc-bar" style="height:82%"></div>
+                  <div class="sc-bar" style="height:38%"></div>
+                  <div class="sc-bar sc-bar-hi" style="height:95%"></div>
+                  <div class="sc-bar" style="height:62%"></div>
+                  <div class="sc-bar" style="height:74%"></div>
+                  <div class="sc-bar" style="height:48%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /mock-slides-wrap -->
+
+        <div class="mock-cursor"></div>
+
+        <div class="mock-dots-nav">
+          <span class="mock-dot-nav active"></span>
+          <span class="mock-dot-nav"></span>
+          <span class="mock-dot-nav"></span>
+        </div>
+
+      </div>
+
+      <!-- ── Tile 3: Stats + availability ── -->
+      <div
+        data-reveal="fade"
+        data-delay="480"
+        class="bento-tile bento-stats flex flex-wrap items-center gap-x-6 gap-y-3 px-8 py-5"
+      >
+        <div class="flex items-center gap-5 text-[13px] text-text-faint">
+          <span><span class="font-semibold text-text-secondary">5+</span> años</span>
+          <span class="h-3 w-px bg-white/10" aria-hidden="true"></span>
+          <span><span class="font-semibold text-text-secondary">30+</span> proyectos</span>
+          <span class="h-3 w-px bg-white/10" aria-hidden="true"></span>
+          <span><span class="font-semibold text-text-secondary">LATAM</span> & España</span>
+        </div>
+        <div class="ml-auto">
+          <AvailabilityBadge />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ═══════════════════════════════════════════
+     Bento grid layout
+  ═══════════════════════════════════════════ */
+  .hero-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-rows: 1fr auto;
+  }
+
+  @media (min-width: 768px) {
+    .hero-grid {
+      grid-template-columns: 1fr 400px;
+      grid-template-rows: 1fr auto;
+    }
+    .bento-mock {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-grid { gap: 12px; }
+  }
+
+  /* ═══════════════════════════════════════════
+     Tile base
+  ═══════════════════════════════════════════ */
+  .bento-tile {
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    overflow: hidden;
+  }
+
+  .bento-main {
+    background: rgba(8, 8, 24, 0.5);
+    min-height: 54vh;
+  }
+  @media (min-width: 768px) {
+    .bento-main { min-height: 0; }
+  }
+
+  .bento-mock {
+    background: #0b0b1e;
+    border-color: rgba(124, 82, 232, 0.22);
+    box-shadow:
+      0 0 48px rgba(124, 82, 232, 0.1),
+      inset 0 1px 0 rgba(124, 82, 232, 0.12);
+  }
+
+  .bento-stats {
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  /* ═══════════════════════════════════════════
+     Chrome bar
+  ═══════════════════════════════════════════ */
+  .mock-chrome {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background-color: #0c0c22;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+    z-index: 5;
+    flex-shrink: 0;
+  }
+  .mock-dots { display: flex; gap: 5px; flex-shrink: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-r { background-color: #6b3535; }
+  .dot-y { background-color: #5c4f2a; }
+  .dot-g { background-color: #2a4a35; }
+  .mock-url {
+    flex: 1;
+    font-size: 10px;
+    color: var(--text-faint);
+    background-color: var(--bg-primary);
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity 0.25s ease;
+  }
+  .mock-url.fading { opacity: 0; }
+
+  /* ═══════════════════════════════════════════
+     Slides wrapper
+  ═══════════════════════════════════════════ */
+  .mock-slides-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .mock-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+  }
+  .mock-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ═══════════════════════════════════════════
+     SLIDE A — Landing dark
+  ═══════════════════════════════════════════ */
+  .sa {
+    height: 100%;
+    background: #0e0e24;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sa-nav { display: flex; justify-content: space-between; align-items: center; }
+  .sa-logo { width: 52px; height: 10px; background: #7C52E8; border-radius: 3px; opacity: 0.4; }
+  .sa-links { display: flex; gap: 8px; }
+  .sa-links span { display: block; width: 28px; height: 7px; background: #13132e; border-radius: 3px; }
+  .sa-hero {
+    background: #080818;
+    border-radius: 7px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+  .sa-h1 { height: 13px; background: #F0F0FF; border-radius: 3px; width: 88%; opacity: 0.14; }
+  .sa-h1-s { width: 54%; }
+  .sa-line { height: 7px; background: #7A7A9A; border-radius: 3px; width: 92%; opacity: 0.18; margin-top: 2px; }
+  .sa-line-s { width: 66%; }
+  .sa-cta { width: 84px; height: 22px; background: #7C52E8; border-radius: 6px; margin-top: 6px; opacity: 0.65; }
+  .sa-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .sa-card { height: 50px; background: #13132e; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); }
+
+  /* ═══════════════════════════════════════════
+     SLIDE B — E-commerce light
+  ═══════════════════════════════════════════ */
+  .sb {
+    height: 100%;
+    background: #f2f0eb;
+    padding: 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .sb-nav { display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 6px; padding: 6px 10px; }
+  .sb-logo { width: 44px; height: 9px; background: #1a1a2e; border-radius: 2px; opacity: 0.6; }
+  .sb-actions { display: flex; gap: 6px; align-items: center; }
+  .sb-search { width: 18px; height: 7px; background: #d0cfc9; border-radius: 3px; }
+  .sb-cart { width: 14px; height: 14px; background: #e05c3a; border-radius: 3px; opacity: 0.85; }
+  .sb-banner { background: #fff8f4; border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; border: 1px solid rgba(224,92,58,0.15); }
+  .sb-badge { width: 38px; height: 7px; background: #e05c3a; border-radius: 10px; opacity: 0.7; margin-bottom: 2px; }
+  .sb-title { height: 11px; background: #1a1a2e; border-radius: 3px; width: 68%; opacity: 0.65; }
+  .sb-sub { height: 7px; background: #1a1a2e; border-radius: 3px; width: 48%; opacity: 0.25; }
+  .sb-cta { width: 56px; height: 17px; background: #e05c3a; border-radius: 4px; margin-top: 3px; }
+  .sb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1; }
+  .sb-product { background: #fff; border-radius: 6px; padding: 6px; display: flex; flex-direction: column; gap: 4px; border: 1px solid rgba(0,0,0,0.06); }
+  .sb-img { height: 42px; background: #e8e6e0; border-radius: 4px; }
+  .sb-img-alt { background: #dde4e8; }
+  .sb-img-b   { background: #e8e0dd; }
+  .sb-img-c   { background: #dde8e0; }
+  .sb-pname { height: 6px; background: #1a1a2e; border-radius: 2px; width: 78%; opacity: 0.3; }
+  .sb-pname-s { width: 55%; }
+  .sb-row { display: flex; justify-content: space-between; align-items: center; }
+  .sb-price { height: 7px; background: #1a1a2e; border-radius: 2px; width: 36%; opacity: 0.5; }
+  .sb-price-off { background: #e05c3a; opacity: 0.7; }
+  .sb-btn { width: 22px; height: 14px; background: #e05c3a; border-radius: 3px; opacity: 0.8; }
+
+  /* ═══════════════════════════════════════════
+     SLIDE C — App / Dashboard
+  ═══════════════════════════════════════════ */
+  .sc { height: 100%; background: #0c1628; display: flex; }
+  .sc-sidebar { width: 38px; background: #07101e; border-right: 1px solid rgba(255,255,255,0.05); padding: 10px 7px; display: flex; flex-direction: column; gap: 14px; flex-shrink: 0; }
+  .sc-logo { width: 24px; height: 24px; background: #2dd4bf; border-radius: 5px; opacity: 0.55; }
+  .sc-nav { display: flex; flex-direction: column; gap: 8px; }
+  .sc-item { display: block; height: 6px; width: 22px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+  .sc-active { background: #2dd4bf; opacity: 0.65; }
+  .sc-main { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .sc-header { display: flex; justify-content: space-between; align-items: center; }
+  .sc-crumb { width: 64px; height: 8px; background: rgba(255,255,255,0.15); border-radius: 3px; }
+  .sc-avatar { width: 18px; height: 18px; border-radius: 50%; background: #2dd4bf; opacity: 0.45; }
+  .sc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .sc-stat { background: rgba(255,255,255,0.05); border-radius: 5px; padding: 6px 7px; border: 1px solid rgba(255,255,255,0.06); }
+  .sc-num { height: 11px; background: #2dd4bf; border-radius: 3px; width: 55%; opacity: 0.65; margin-bottom: 4px; }
+  .sc-num-b { background: #818cf8; }
+  .sc-num-c { background: #f472b6; opacity: 0.6; }
+  .sc-lbl { height: 6px; background: rgba(255,255,255,0.12); border-radius: 3px; width: 80%; }
+  .sc-chart { flex: 1; display: flex; align-items: flex-end; gap: 5px; padding: 4px 0 2px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .sc-bar { flex: 1; background: #2dd4bf; border-radius: 3px 3px 0 0; opacity: 0.5; }
+  .sc-bar-hi { opacity: 0.85; }
+
+  /* ═══════════════════════════════════════════
+     Dots nav
+  ═══════════════════════════════════════════ */
+  .mock-dots-nav {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 10;
+  }
+  .mock-dot-nav {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .mock-dot-nav.active {
+    background: var(--accent-light);
+    transform: scale(1.3);
+  }
+
+  /* ═══════════════════════════════════════════
+     Cursor animado
+  ═══════════════════════════════════════════ */
+  .mock-cursor {
+    position: absolute;
+    width: 11px; height: 11px;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 8px 3px rgba(157, 127, 245, 0.6);
+    animation: mock-cursor-move 5s ease-in-out 1.5s infinite;
+    z-index: 20;
+  }
+
+  @keyframes mock-cursor-move {
+    0%   { top: 88px;  left: 80px;  opacity: 0; transform: scale(0.8); }
+    8%   { opacity: 1; transform: scale(1); }
+    30%  { top: 88px;  left: 80px; }
+    50%  { top: 162px; left: 52px; }
+    60%  { top: 162px; left: 52px; transform: scale(0.65); }
+    65%  { top: 162px; left: 52px; transform: scale(1.15); }
+    70%  { top: 162px; left: 52px; transform: scale(1); }
+    88%  { top: 218px; left: 180px; }
+    94%  { top: 218px; left: 180px; opacity: 1; }
+    100% { top: 88px;  left: 80px;  opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mock-cursor { animation: none; opacity: 0; }
+    .mock-slide  { transition: none; }
+  }
+</style>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const slides = Array.from(document.querySelectorAll<HTMLElement>('.mock-slide'));
+    const urlEl  = document.querySelector<HTMLElement>('.mock-url');
+    const dots   = Array.from(document.querySelectorAll<HTMLElement>('.mock-dot-nav'));
+
+    if (slides.length && urlEl) {
+      let current = 0;
+
+      setInterval(() => {
+        const next = (current + 1) % slides.length;
+
+        urlEl.classList.add('fading');
+        setTimeout(() => {
+          urlEl.textContent = slides[next].dataset.url ?? '';
+          urlEl.classList.remove('fading');
+        }, 250);
+
+        slides[current].classList.remove('is-active');
+        slides[next].classList.add('is-active');
+
+        dots[current]?.classList.remove('active');
+        dots[next]?.classList.add('active');
+
+        current = next;
+      }, 3500);
+    }
+  }
+</script>

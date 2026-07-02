@@ -1,0 +1,42 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import ProcessHorizontal from './ProcessHorizontal';
+import { process } from '../data/process';
+---
+
+<section id="proceso" class="scroll-mt-24">
+
+  <!-- Heading — visible antes del scroll horizontal -->
+  <div class="container-site py-24 lg:pb-0 lg:pt-32">
+    <SectionHeading
+      eyebrow="Cómo trabajamos"
+      title="Un proceso simple y transparente."
+      subtitle="Desde la primera charla hasta la entrega, siempre sabés en qué etapa estás."
+    />
+  </div>
+
+  <!-- Mobile: lista simple -->
+  <div class="container-site pb-24 lg:hidden">
+    <ol class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+      {process.map((step, i) => (
+        <li data-reveal="up" data-delay={i * 80} class="flex flex-col gap-3">
+          <span class="font-mono text-4xl font-semibold text-accent/30" aria-hidden="true">
+            {step.number}
+          </span>
+          <h3 class="text-xl font-semibold tracking-[-0.01em] text-text-primary">
+            {step.title}
+          </h3>
+          <p class="text-[15px] leading-relaxed text-text-secondary">
+            {step.description}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <!-- Desktop: horizontal scroll -->
+  <div class="hidden lg:block" style="overflow-x: clip">
+    <ProcessHorizontal steps={process} client:only="react" />
+  </div>
+
+</section>

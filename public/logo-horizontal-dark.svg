@@ -1,0 +1,23 @@
+<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&amp;family=JetBrains+Mono&amp;display=swap");
+    </style>
+  </defs>
+
+  <!-- Diamante: mitad oscura (izquierda/superior) -->
+  <polygon points="36,4 68,40 36,76 4,40" fill="#4338CA"/>
+  <!-- Mitad clara (derecha/inferior) -->
+  <polygon points="36,4 68,40 36,76" fill="#A78BFA"/>
+
+  <!-- Línea separadora -->
+  <line x1="80" y1="18" x2="80" y2="62" stroke="#6366F1" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- CALPEL -->
+  <text x="92" y="52" font-family="Work Sans, system-ui, sans-serif" font-weight="700"
+        font-size="36" letter-spacing="-0.5" fill="#F1F5F9">CALPEL</text>
+
+  <!-- .DEV -->
+  <text x="94" y="68" font-family="JetBrains Mono, ui-monospace, monospace"
+        font-size="12" fill="#6366F1" opacity="0.9">.DEV</text>
+</svg>
