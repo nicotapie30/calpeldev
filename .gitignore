@@ -29,6 +29,9 @@ pnpm-debug.log*
 
 # AI / dev tooling
 .claude/settings.local.json
+.claude/commands/
+.claude/skills/
+.claude/scheduled_tasks.lock
 .playwright-mcp/
 .cursor/
 .aider*
