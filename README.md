@@ -41,58 +41,60 @@ All commands are run from the root of the project, from a terminal:
 ## Deploy
 
 Netlify, conectado al repo: push a `main` deploya. La config vive en
-`netlify.toml`. El sitio sale estático al CDN; la única función es
-`/api/contact`, que tiene `prerender = false` y solo llama a Resend por HTTPS.
-Como no hay base de datos, la región donde corra esa función no afecta la
-navegación.
+`netlify.toml`.
 
-### Las variables van cargadas ANTES del primer build
+El sitio es **100% estático**: `astro build` prerenderiza todo a `dist` y
+Netlify sirve archivos. No hay adapter, no hay serverless functions y no hay
+variables de entorno que cargar en el panel. Deployar es copiar una carpeta.
 
-En el panel de Netlify hay que cargar las dos de `.env.example`
-(`RESEND_API_KEY` y `CONTACT_EMAIL`).
+### El formulario no manda mails
 
-No es un detalle de orden: Vite reemplaza `import.meta.env.RESEND_API_KEY` por
-su valor **durante el build**, no lo lee en runtime. Un build sin la variable
-compila, deploya en verde, y el formulario recién devuelve 500 en producción —
-sin ningún error en el log del deploy que lo anticipe. Por lo mismo, **rotar la
-key exige redeployar**: cambiarla en el panel no alcanza.
+El form de contacto arma un link de `wa.me` en el browser y abre WhatsApp
+(`src/components/Contact.astro`). No hay backend, no hay endpoint, no se envía
+nada a ningún servidor. La validación con Zod corre del lado del cliente, antes
+de armar el mensaje.
 
-### Después de deployar, mirar tres cosas
+Hubo un `src/pages/api/contact.ts` que mandaba el formulario por Resend. Quedó
+sin uso cuando el form pasó a WhatsApp y se borró en la migración a Netlify,
+junto con la dependencia `resend` y el `.env.example`. Está en la historia de
+git si alguna vez se quiere retomar el envío por mail — pero volver a agregar
+una ruta con `prerender = false` obliga a poner un adapter de nuevo, con todo
+lo que eso arrastra (ver más abajo).
 
-- **El formulario de contacto** — mandar una consulta de prueba y confirmar que
-  el mail llega. Es lo único que depende de una función y de una variable de
-  entorno; todo lo demás es HTML estático.
+### Después de deployar, mirar dos cosas
+
 - **`/sitemap-index.xml`** — lo emite `@astrojs/sitemap` en el hook
   `astro:build:done`. Si ese hook falla, el resto del sitio se ve perfecto y el
-  sitemap simplemente no existe.
-- **Las rutas internas** — el adapter emite `dist/_redirects`, también en ese
-  mismo hook.
+  sitemap simplemente no existe, sin ningún error visible.
+- **El botón del formulario** — que abra WhatsApp con el mensaje prellenado.
 
 ### Volver a Vercel
 
-`.vercel/` sigue en el repo (ignorado por git) y el proyecto sigue existiendo en
-Vercel: el rollback es mover el DNS de `calpel.dev` de vuelta y revertir el
-commit de migración. Lo que se saca al volver es `@astrojs/vercel` +
-`@vercel/analytics`, que se fueron con esta migración — el sitio ya no reporta
-Web Analytics de Vercel, y Netlify Analytics es pago.
+`.vercel/` sigue en el disco (ignorado por git) y el proyecto sigue existiendo
+en Vercel: el rollback es mover el DNS de `calpel.dev` de vuelta y revertir los
+commits de migración. Lo que se pierde al haber migrado es Vercel Web Analytics
+—venía del adapter, no de ningún import— y Netlify Analytics es pago.
 
-### `pnpm build` falla en Windows y no es un problema del proyecto
+### Si algún día vuelve a hacer falta un adapter
 
-En local el build muere al final con:
+Sumar cualquier ruta con `prerender = false` obliga a un adapter, y ahí reaparece
+un problema que en Windows no es obvio: `pnpm build` muere al final con
 
-    EPERM: operation not permitted, symlink ... -> .netlify/v1/functions/ssr/node_modules/...
+    EPERM: operation not permitted, symlink ...
 
-`@astrojs/netlify` reconstruye las dependencias de la función respetando los
-symlinks de `node_modules`, y pnpm arma todo con symlinks. Crear symlinks en
-Windows pide un privilegio que los usuarios no-admin no tienen por defecto.
-Netlify buildea en Linux, donde no hace falta, así que el deploy no se ve
-afectado.
+El adapter reconstruye las dependencias de la function respetando los symlinks
+de `node_modules`, y pnpm arma todo con symlinks. Crearlos en Windows pide un
+privilegio que los usuarios no-admin no tienen por defecto. Pasa con cualquier
+adapter de Astro, no es de Netlify: `@astrojs/vercel` y `@astrojs/netlify` usan
+los dos el mismo `copyFilesToFolder` de `@astrojs/internal-helpers`.
 
-Para buildear local: activar **Modo de desarrollador** (Configuración → Sistema
-→ Para desarrolladores), o correr el build desde una terminal como
-Administrador. Ojo con el `dist/` que deja un build fallido: tiene el
-`index.html` y los assets, así que parece completo, pero le faltan `_redirects`
-y el sitemap.
+La salida es activar **Modo de desarrollador** (Configuración → Sistema → Para
+desarrolladores) o buildear desde una terminal como Administrador. En Linux —o
+sea en el build de Netlify— no aplica.
+
+Ojo con el `dist/` que deja un build fallido así: tiene el `index.html` y los
+assets, así que parece completo, pero le faltan el sitemap y los `_redirects`,
+que se emiten en el mismo hook que aborta.
 
 ## 👀 Want to learn more?
 
