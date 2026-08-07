@@ -1,0 +1,25 @@
+# Deploy en Netlify. Reemplaza al adapter de Vercel.
+#
+# Astro no necesita un plugin de Netlify: el adapter `@astrojs/netlify` ya emite
+# las functions dentro de `dist` durante el build. Lo que sí conviene fijar es
+# el comando y la versión de Node, para que el deploy no dependa de la
+# autodetección de la plataforma.
+
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  # package.json pide >=22.12.0. Se fija acá para que un cambio del default de
+  # Netlify no rompa el build un día cualquiera sin que nadie toque el repo.
+  NODE_VERSION = "22"
+
+# El sitio es estático: todas las páginas salen prerenderizadas al CDN. La única
+# function es `/api/contact` (`prerender = false`), que solo llama a Resend por
+# HTTPS. No hay base de datos, así que la región donde corra la function no
+# afecta la latencia de navegación — a diferencia del CRM, que sí paga ese costo.
+
+# RESEND_API_KEY y CONTACT_EMAIL se cargan en el panel de Netlify, nunca acá.
+# Importante: Vite las reemplaza estáticamente en BUILD, no las lee en runtime.
+# Un build sin ellas deploya verde y el formulario recién falla en producción.
+# Si se rota la key, hay que redeployar: cambiarla en el panel no alcanza.

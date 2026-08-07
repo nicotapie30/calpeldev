@@ -18,7 +18,10 @@ pnpm-debug.log*
 .env.production
 .env.local
 
-# vercel
+# netlify
+.netlify/
+
+# vercel — el proyecto migró a Netlify, pero .vercel/ es el camino de vuelta
 .vercel/
 
 # macOS-specific files
