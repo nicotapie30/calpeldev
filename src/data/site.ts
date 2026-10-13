@@ -5,7 +5,7 @@
 export const site = {
   name: 'CalPel.dev',
   url: 'https://calpel.dev',
-  author: 'Nicolás Atapie',
+  author: 'Nicolás Tapié',
   email: 'hola@calpel.dev',
   description:
     'Sitios web, ecommerce y automatizaciones a medida para PyMEs, agencias y emprendedores. Desde Santa Rosa, La Pampa, para toda Argentina y LATAM.',

@@ -17,7 +17,7 @@ export const faq: FaqItem[] = [
   {
     question: '¿Trabajás con clientes fuera de Argentina?',
     answer:
-      'Sí. Trabajo con clientes en toda LATAM y España. Cobranza en pesos argentinos, USD o EUR según el caso.',
+      'Sí. Trabajo 100% remoto, así que puedo tomar proyectos de cualquier parte de Argentina, LATAM o España. Cobranza en pesos argentinos, USD o EUR según el caso.',
   },
   {
     question: '¿Qué pasa si necesito cambios después de la entrega?',

@@ -3,7 +3,6 @@ import gallegoCazaux from '../assets/projects/gallego-cazaux.png';
 import isolina from '../assets/projects/isolina.png';
 import estudioJuridico from '../assets/projects/estudio-juridico.png';
 import estudioContable from '../assets/projects/estudio-contable.png';
-import pampaDigital from '../assets/projects/pampa-digital.png';
 import gimnasio from '../assets/projects/gimnasio.png';
 import almaCafe from '../assets/projects/alma-cafe.png';
 import espacioSereno from '../assets/projects/espacio-sereno.png';
@@ -26,7 +25,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     name: 'Gimnasio Oxígeno',
-    type: 'Sitio comercial con clases y horarios',
+    type: 'Demo · Sitio comercial con clases y horarios',
     stack: ['Next.js', 'Tailwind'],
     description:
       'Sitio para gimnasio con planes de membresía, grilla de actividades y formulario de contacto directo.',
@@ -44,7 +43,7 @@ export const projects: Project[] = [
   },
   {
     name: 'Estudio Jurídico',
-    type: 'Landing institucional premium',
+    type: 'Demo · Landing institucional premium',
     stack: ['Astro', 'Tailwind'],
     description:
       'Landing oscura y editorial para bufete legal. Foco en autoridad, confianza y captación de consultas.',
@@ -53,7 +52,7 @@ export const projects: Project[] = [
   },
   {
     name: 'Estudio Contable',
-    type: 'Landing profesional + bento de métricas',
+    type: 'Demo · Landing profesional + bento de métricas',
     stack: ['Astro', 'Tailwind'],
     description:
       'Landing clean para estudio contable con bento de métricas (clientes, retención, años) y consulta gratuita destacada.',
@@ -61,27 +60,18 @@ export const projects: Project[] = [
     image: estudioContable,
   },
   {
-    name: 'Pampa Digital',
-    type: 'Landing + hero con WhatsApp mock',
-    stack: ['React', 'Tailwind', 'Framer Motion'],
-    description:
-      'Landing para servicio técnico de PC con mock de chat WhatsApp en el hero y CTAs de alta conversión.',
-    link: 'https://pampa-digital.vercel.app/',
-    image: pampaDigital,
-  },
-  {
     name: 'Gallego Cazaux Inmobiliaria',
-    type: 'Sitio institucional + CMS',
+    type: 'Cliente · Sitio institucional + CMS',
     stack: ['Next.js', 'Sanity', 'Tailwind', 'Vercel'],
     description:
       'Sitio profesional con gestión de propiedades en tiempo real. La inmobiliaria carga, edita y publica desde un panel propio.',
-    link: 'https://gallego-cazaux-demo.vercel.app/',
+    link: 'https://gallegocazaux.com/',
     image: gallegoCazaux,
     featured: true,
   },
   {
     name: 'Alma Café',
-    type: 'Sitio gastronómico + reservas',
+    type: 'Demo · Sitio gastronómico + reservas',
     stack: ['Astro', 'Tailwind'],
     description:
       'Sitio cálido y editorial para café de especialidad. Galería, menú y reservas online integradas.',
@@ -90,7 +80,7 @@ export const projects: Project[] = [
   },
   {
     name: 'Espacio Sereno',
-    type: 'Landing bienestar + agenda de clases',
+    type: 'Demo · Landing bienestar + agenda de clases',
     stack: ['Astro', 'Tailwind'],
     description:
       'Landing para centro de yoga con clases, horarios y reservas. Diseño editorial sereno y minimalista.',
@@ -99,7 +89,7 @@ export const projects: Project[] = [
   },
   {
     name: 'Geo Argentina API',
-    type: 'API REST pública',
+    type: 'Proyecto propio · API REST pública',
     stack: ['Node.js', 'Express', 'MongoDB'],
     description:
       'API con datos geográficos completos de Argentina. Provincias, ciudades, códigos postales.',

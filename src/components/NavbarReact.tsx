@@ -13,7 +13,6 @@ const standaloneLinks = [
 const nosotrosItems = [
   { label: "Sobre mí",    href: "#about",       description: "Quién está detrás de CalPel" },
   { label: "Proceso",     href: "#proceso",      description: "Cómo trabajamos juntos" },
-  { label: "Testimonios", href: "#testimonios",  description: "Lo que dicen nuestros clientes" },
   { label: "FAQ",         href: "#faq",          description: "Preguntas frecuentes" },
 ];
 
