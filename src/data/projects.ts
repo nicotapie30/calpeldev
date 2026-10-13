@@ -34,11 +34,11 @@ export const projects: Project[] = [
   },
   {
     name: 'Isolina',
-    type: 'Landing page premium',
-    stack: ['Next.js', 'Tailwind', 'Framer Motion'],
+    type: 'Cliente · Sitio editorial con colección',
+    stack: ['Astro', 'Tailwind', 'Cloudflare Pages'],
     description:
-      'Landing con animaciones cinematográficas y diseño editorial para marca de indumentaria de autor.',
-    link: 'https://isolina.vercel.app/',
+      'Sitio editorial para atelier de diseño de autor en Santa Rosa. Colección con ficha por pieza, proceso de confección y consultas por WhatsApp.',
+    link: 'https://isolina.pages.dev/',
     image: isolina,
   },
   {
